@@ -13,11 +13,11 @@ function App() {
         main: "#4C7EFF",
       },
       secondary: {
-        main: "#FBA1B7",
-        light: "#B188FF", // "second" yerine "light" gibi geçerli bir anahtar kullanılmalı
+        main: "#6C5FD2",
+        light: "#FBA1B7",
       },
       background: {
-        default: "#F5F5F5", // Arka plan için doğru yer burasıdır
+        default: "#F5F5F5",
       },
     },
     typography: {
@@ -28,11 +28,10 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
-        <ToastContainer>
-          <Provider store={store}>
-            <AppRouter />
-          </Provider>
-        </ToastContainer>
+        <Provider store={store}>
+          <AppRouter />
+        </Provider>
+        <ToastContainer />
       </ThemeProvider>
     </ErrorBoundary>
   );
