@@ -20,7 +20,7 @@ const AuthLogo = () => {
         sx={{
           p: 2,
           borderRadius: "50%",
-          bgcolor: "white",
+          bgcolor: theme.palette.background.default,
           boxShadow: `0px 4px 12px ${theme.palette.secondary.main}`,
         }}
       >

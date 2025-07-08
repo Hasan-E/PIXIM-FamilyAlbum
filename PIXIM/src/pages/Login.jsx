@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Avatar,
-  useThemeProps,
 } from "@mui/material";
 import AuthLogo from "../components/AuthLogo";
 import LockIcon from "@mui/icons-material/Lock";
@@ -56,7 +55,7 @@ const Login = () => {
             initialValues={{ email: "", password: "" }}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
-              console.log(values);
+              
             }}
             component={(props) => <LoginForm {...props} />}
           />
