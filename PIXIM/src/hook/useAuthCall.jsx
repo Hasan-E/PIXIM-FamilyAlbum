@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart } from "../features/authSlice";
+import { fetchFail, fetchStart, registerSuccess } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -11,15 +11,14 @@ const useAuthCall = () => {
   //! REGİSTER İŞLEMİ
 
   const register = async (userInfo) => {
-    console.log(userInfo);
     dispatch(fetchStart());
 
     try {
       const { data } = await axios.post(`${BASE_URL}users`, userInfo);
-      console.log(data);
+      dispatch(registerSuccess(data))
+      navigate("/home")
     } catch (error) {
       dispatch(fetchFail());
-      console.log(error);
     }
   };
   return { register };

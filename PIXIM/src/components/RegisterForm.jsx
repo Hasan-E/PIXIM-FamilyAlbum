@@ -16,6 +16,7 @@ const RegisterForm = ({
   const [uploading, setUploading] = useState(false);
 
   const handleImageSelect = async (e) => {
+    //!
     const file = e.target.files[0];
     if (!file) return;
 
@@ -118,7 +119,13 @@ const RegisterForm = ({
         helperText={touched.password && errors.password}
         margin="normal"
       />
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }} disabled={uploading}>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3 }}
+        disabled={uploading}
+      >
         {uploading ? "Uploading..." : "JOIN"}
       </Button>
     </form>
