@@ -2,15 +2,12 @@ import {
   Container,
   Box,
   Typography,
-  Avatar,
-  Paper,
   useTheme,
 } from "@mui/material";
 import AuthLogo from "../components/AuthLogo";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import image from "/Logo.png";
 import RegisterForm from "../components/RegisterForm";
 import useAuthCall from "../hook/useAuthCall";
 

@@ -1,5 +1,11 @@
-import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, registerSuccess } from "../features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchFail,
+  fetchStart,
+  loginSuccess,
+  logoutSuccess,
+  registerSuccess,
+} from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -7,6 +13,7 @@ const useAuthCall = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const { token } = useSelector((state) => state.auth);
 
   //! REGİSTER İŞLEMİ
 
@@ -15,13 +22,41 @@ const useAuthCall = () => {
 
     try {
       const { data } = await axios.post(`${BASE_URL}users`, userInfo);
-      dispatch(registerSuccess(data))
-      navigate("/home")
+      dispatch(registerSuccess(data));
+      navigate("/home");
     } catch (error) {
       dispatch(fetchFail());
     }
   };
-  return { register };
+
+  //! LOGOUT İŞLEMİ
+  const logout = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axios.get(`${BASE_URL}auth/logout`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+      dispatch(logoutSuccess());
+      navigate("/");
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  };
+
+  //!LOGIN İŞLEMİ
+  const login = async (userInfo) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axios.post(`${BASE_URL}auth/login`, userInfo);
+      dispatch(loginSuccess(userInfo));
+      navigate("/home");
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  };
+  return { register, logout, login };
 };
 
 export default useAuthCall;

@@ -1,17 +1,14 @@
-import {
-  Container,
-  Box,
-  Typography,
-  Avatar,
-} from "@mui/material";
+import { Container, Box, Typography, Avatar } from "@mui/material";
 import AuthLogo from "../components/AuthLogo";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import LoginForm from "../components/LoginForm";
+import useAuthCall from "../hook/useAuthCall";
 
 const Login = () => {
+  const { login } = useAuthCall();
   const SignupSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string()
@@ -54,8 +51,10 @@ const Login = () => {
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={SignupSchema}
-            onSubmit={(values) => {
-              
+            onSubmit={(values, actions) => {
+              login(values);
+              actions.resetForm();
+              actions.setSubmitting(false);
             }}
             component={(props) => <LoginForm {...props} />}
           />
