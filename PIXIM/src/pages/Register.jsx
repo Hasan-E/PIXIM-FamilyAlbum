@@ -12,8 +12,10 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import image from "/Logo.png";
 import RegisterForm from "../components/RegisterForm";
+import useAuthCall from "../hook/useAuthCall";
 
 const Register = () => {
+  const {register} = useAuthCall();
   const theme = useTheme();
   const RegisterSchema = Yup.object().shape({
     // image: Yup.string().required("Required"),
@@ -56,39 +58,11 @@ const Register = () => {
           <Typography variant="h4" align="center" mb={4} color="secondary.main">
             JOIN YOUR FAMILY
           </Typography>
-          <Avatar
-            sx={{
-              backgroundColor: "secondary.main",
-              m: "auto",
-              width: 110,
-              height: 110,
-            }}
-          >
-            <Paper
-              elevation={4}
-              sx={{
-                p: 2,
-                borderRadius: "50%",
-                bgcolor: theme.palette.background.default,
-                boxShadow: `0px 4px 12px ${theme.palette.secondary.main}`,
-              }}
-            >
-              <img
-                src={image}
-                alt="main logo"
-                style={{
-                  height: "80px",
-                  width: "80px",
-                  objectFit: "contain",
-                  borderRadius: "50%",
-                }}
-              />
-            </Paper>
-          </Avatar>
+    
 
           <Formik
             initialValues={{
-              // image: "",
+              image: "",
               email: "",
               username: "",
               firstName: "",
@@ -96,9 +70,8 @@ const Register = () => {
               password: "",
             }}
             validationSchema={RegisterSchema}
-            onSubmit={(values) => {
-              console.log(values);
-            }}
+            onSubmit={(values) => (register(values))
+            }
           >
             {(formikProps) => <RegisterForm {...formikProps} />}
           </Formik>

@@ -1,4 +1,6 @@
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Avatar } from "@mui/material";
+import { useRef, useState } from "react";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary";
 
 const RegisterForm = ({
   values,
@@ -7,9 +9,50 @@ const RegisterForm = ({
   handleBlur,
   handleChange,
   handleSubmit,
+  setFieldValue,
 }) => {
+  const fileInputRef = useRef(); //!
+  const [preview, setPreview] = useState();
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageSelect = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setPreview(URL.createObjectURL(file));
+    setUploading(true);
+
+    try {
+      const imageUrl = await uploadToCloudinary(file);
+      setFieldValue("image", imageUrl); // 🔗 Formik formuna URL olarak ekle
+    } catch (err) {
+      console.error("Yükleme Hatası:", err);
+      alert("Görsel yüklenemedi.");
+    }
+
+    setUploading(false);
+  };
   return (
     <form onSubmit={handleSubmit}>
+      <Avatar
+        src={preview || "/Logo.png"}
+        sx={{
+          m: "auto",
+          width: 100,
+          height: 100,
+          cursor: "pointer",
+          mb: 2,
+        }}
+        onClick={() => fileInputRef.current.click()}
+      />
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleImageSelect}
+        style={{ display: "none" }}
+      />
       <TextField
         fullWidth
         name="email"
@@ -75,8 +118,8 @@ const RegisterForm = ({
         helperText={touched.password && errors.password}
         margin="normal"
       />
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-        JOIN
+      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }} disabled={uploading}>
+        {uploading ? "Uploading..." : "JOIN"}
       </Button>
     </form>
   );
