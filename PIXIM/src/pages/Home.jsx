@@ -1,8 +1,12 @@
 import React from "react";
-import Typography from "@mui/material/Typography";
+import {Typography,Box} from "@mui/material";
 
 const Home = () => {  
-  return <Typography variant="h4">Welcome to Pixim</Typography>;
+  return (
+    <Box>
+
+    </Box>
+  )
 };
 
 export default Home;

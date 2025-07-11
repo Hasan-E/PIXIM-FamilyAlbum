@@ -18,7 +18,7 @@ export const uploadToCloudinary = async (file) => {
   const data = await response.json();
 
   if (response.ok) {
-    return data.secure_url; // 🔗 Geriye sadece görselin URL'si döner
+    return data.secure_url; 
   } else {
     throw new Error(data.error?.message || "Cloudinary upload failed");
   }

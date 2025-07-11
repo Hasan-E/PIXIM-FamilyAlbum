@@ -51,6 +51,8 @@ const useAuthCall = () => {
     try {
       const { data } = await axios.post(`${BASE_URL}auth/login`, userInfo);
       dispatch(loginSuccess(data));
+      // localStorage.setItem("token", data.token);
+      // localStorage.setItem("username", data.data.username);
       navigate("/pixim");
     } catch (error) {
       dispatch(fetchFail());
