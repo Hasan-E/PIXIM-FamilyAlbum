@@ -11,6 +11,14 @@ import MailIcon from "@mui/icons-material/Mail";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import { styled, useTheme } from "@mui/material/styles";
+import { Avatar } from "@mui/material";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import ImageSearchOutlinedIcon from "@mui/icons-material/ImageSearchOutlined";
+import FilterOutlinedIcon from "@mui/icons-material/FilterOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useNavigate } from "react-router-dom";
+import useImageUpload from "../hook/useImageUpload";
 
 const drawerWidth = 250;
 
@@ -64,14 +72,55 @@ const Drawer = styled(MuiDrawer, {
     },
   ],
 }));
+
+const links = [
+  {
+    title: "Home",
+    url: "/pixim",
+    icon: <HomeOutlinedIcon />,
+  },
+  {
+    title: "Add New Moment",
+    url: "/pixim/new_moment",
+    icon: <AddPhotoAlternateOutlinedIcon />,
+  },
+  {
+    title: "My Moments",
+    url: "/pixim/my_moments",
+    icon: <ImageSearchOutlinedIcon />,
+  },
+  {
+    title: "Albums",
+    url: "/pixim/albums",
+    icon: <FilterOutlinedIcon />,
+  },
+  {
+    title: "About",
+    url: "/pixim/about",
+    icon: <InfoOutlinedIcon />,
+  },
+];
 const PiximDrawer = ({ open, setOpen }) => {
-    const theme = useTheme();
+  const { fileInputRef, preview, handleImageSelect } = useImageUpload();
+  const navigate = useNavigate();
+  const theme = useTheme();
   const handleDrawerClose = () => {
     setOpen(false);
   };
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader>
+        <Avatar
+          src="/Logo.png"
+          sx={{
+            m: "auto",
+            width: 50,
+            height: 50,
+            cursor: "pointer",
+            mb: 2,
+            mt: 2,
+          }}
+        />
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (
             <ChevronRightIcon />
@@ -81,10 +130,30 @@ const PiximDrawer = ({ open, setOpen }) => {
         </IconButton>
       </DrawerHeader>
       <Divider />
+      <Avatar
+        src={preview || "/addprofile.png"}
+        sx={{
+          m: "auto",
+          width: 100,
+          height: 100,
+          cursor: "pointer",
+          mb: 2,
+        }}
+        onClick={() => navigate("/pixim/profile")}
+      />
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleImageSelect}
+        style={{ display: "none" }}
+      />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: "block" }}>
+        {links.map((item) => (
+          <ListItem key={item.title} disablePadding sx={{ display: "block" }}>
             <ListItemButton
+              onClick={() => navigate(item.url)}
               sx={[
                 {
                   minHeight: 48,
@@ -114,62 +183,10 @@ const PiximDrawer = ({ open, setOpen }) => {
                       },
                 ]}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {item.icon}
               </ListItemIcon>
               <ListItemText
-                primary={text}
-                sx={[
-                  open
-                    ? {
-                        opacity: 1,
-                      }
-                    : {
-                        opacity: 0,
-                      },
-                ]}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={[
-                {
-                  minHeight: 48,
-                  px: 2.5,
-                },
-                open
-                  ? {
-                      justifyContent: "initial",
-                    }
-                  : {
-                      justifyContent: "center",
-                    },
-              ]}
-            >
-              <ListItemIcon
-                sx={[
-                  {
-                    minWidth: 0,
-                    justifyContent: "center",
-                  },
-                  open
-                    ? {
-                        mr: 3,
-                      }
-                    : {
-                        mr: "auto",
-                      },
-                ]}
-              >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText
-                primary={text}
+                primary={item.title}
                 sx={[
                   open
                     ? {

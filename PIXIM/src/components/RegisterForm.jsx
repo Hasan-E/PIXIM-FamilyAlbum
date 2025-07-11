@@ -1,6 +1,5 @@
 import { TextField, Button, Avatar } from "@mui/material";
-import { useRef, useState } from "react";
-import { uploadToCloudinary } from "../utils/uploadToCloudinary";
+import useImageUpload from "../hook/useImageUpload";
 
 const RegisterForm = ({
   values,
@@ -11,32 +10,13 @@ const RegisterForm = ({
   handleSubmit,
   setFieldValue,
 }) => {
-  const fileInputRef = useRef(); //!
-  const [preview, setPreview] = useState();
-  const [uploading, setUploading] = useState(false);
+  const { fileInputRef, preview, uploading, handleImageSelect } =
+    useImageUpload((imageUrl) => setFieldValue("image", imageUrl));
 
-  const handleImageSelect = async (e) => {
-    //!
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setPreview(URL.createObjectURL(file));
-    setUploading(true);
-
-    try {
-      const imageUrl = await uploadToCloudinary(file);
-      setFieldValue("image", imageUrl); // 🔗 Formik formuna URL olarak ekle
-    } catch (err) {
-      console.error("Yükleme Hatası:", err);
-      alert("Görsel yüklenemedi.");
-    }
-
-    setUploading(false);
-  };
   return (
     <form onSubmit={handleSubmit}>
       <Avatar
-        src={preview || "/Logo.png"}
+        src={preview || "/addprofile.png"}
         sx={{
           m: "auto",
           width: 100,
