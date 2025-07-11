@@ -11,7 +11,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import { styled, useTheme } from "@mui/material/styles";
-import { Avatar } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import ImageSearchOutlinedIcon from "@mui/icons-material/ImageSearchOutlined";
@@ -109,98 +109,98 @@ const PiximDrawer = ({ open, setOpen }) => {
   };
   return (
     <Drawer variant="permanent" open={open}>
-      <DrawerHeader>
-        <Avatar
-          src="/Logo.png"
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+        }}
+      >
+        <DrawerHeader>
+          <Avatar
+            src="/Logo.png"
+            sx={{
+              m: "auto",
+              width: 50,
+              height: 50,
+              cursor: "pointer",
+              mb: 2,
+              mt: 2,
+            }}
+          />
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+
+        <Divider />
+
+        {/* 👇 Drawer içeriği */}
+        <Box
           sx={{
-            m: "auto",
-            width: 50,
-            height: 50,
-            cursor: "pointer",
-            mb: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             mt: 2,
           }}
-        />
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
-          ) : (
-            <ChevronLeftIcon />
-          )}
-        </IconButton>
-      </DrawerHeader>
-      <Divider />
-      <Avatar
-        src={preview || "/addprofile.png"}
-        sx={{
-          m: "auto",
-          width: 100,
-          height: 100,
-          cursor: "pointer",
-          mb: 2,
-        }}
-        onClick={() => navigate("/pixim/profile")}
-      />
+        >
+          <Avatar
+            src={preview || "/addprofile.png"}
+            sx={{
+              width: open ? 100 : 40,
+              height: open ? 100 : 40,
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              mb: 2,
+            }}
+            onClick={() => navigate("/pixim/profile")}
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageSelect}
+            style={{ display: "none" }}
+          />
+        </Box>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleImageSelect}
-        style={{ display: "none" }}
-      />
-      <List>
-        {links.map((item) => (
-          <ListItem key={item.title} disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              onClick={() => navigate(item.url)}
-              sx={[
-                {
-                  minHeight: 48,
-                  px: 2.5,
-                },
-                open
-                  ? {
-                      justifyContent: "initial",
-                    }
-                  : {
-                      justifyContent: "center",
-                    },
-              ]}
-            >
-              <ListItemIcon
+        {/* 👇 Listeyi yukarı sabitliyoruz */}
+        <List sx={{ mt: 2 }}>
+          {links.map((item) => (
+            <ListItem key={item.title} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                onClick={() => navigate(item.url)}
                 sx={[
                   {
-                    minWidth: 0,
-                    justifyContent: "center",
+                    minHeight: 48,
+                    px: 2.5,
                   },
                   open
-                    ? {
-                        mr: 3,
-                      }
-                    : {
-                        mr: "auto",
-                      },
+                    ? { justifyContent: "initial" }
+                    : { justifyContent: "center" },
                 ]}
               >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.title}
-                sx={[
-                  open
-                    ? {
-                        opacity: 1,
-                      }
-                    : {
-                        opacity: 0,
-                      },
-                ]}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+                <ListItemIcon
+                  sx={[
+                    { minWidth: 0, justifyContent: "center" },
+                    open ? { mr: 3 } : { mr: "auto" },
+                  ]}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.title}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Drawer>
   );
 };

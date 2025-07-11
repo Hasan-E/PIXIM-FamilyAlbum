@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary";
 
 const useImageUpload = (onUploadSuccess) => {
   const fileInputRef = useRef();
