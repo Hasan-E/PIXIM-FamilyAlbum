@@ -1,7 +1,6 @@
-
 export const uploadToCloudinary = async (file) => {
-  const cloudName = "dnjonhcru";
-  const uploadPreset = "unsigned_presets";
+  const cloudName = import.meta.env.VITE_CLUD_NAME;
+  const uploadPreset = import.meta.env.VITE_UPLOAD_PRESET;
 
   const formData = new FormData();
   formData.append("file", file);
@@ -18,7 +17,7 @@ export const uploadToCloudinary = async (file) => {
   const data = await response.json();
 
   if (response.ok) {
-    return data.secure_url; 
+    return data.secure_url;
   } else {
     throw new Error(data.error?.message || "Cloudinary upload failed");
   }

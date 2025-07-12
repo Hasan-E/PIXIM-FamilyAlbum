@@ -17,6 +17,7 @@ import FilterOutlinedIcon from "@mui/icons-material/FilterOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useNavigate } from "react-router-dom";
 import useImageUpload from "../hook/useImageUpload";
+import { useSelector } from "react-redux";
 
 const drawerWidth = 250;
 
@@ -99,6 +100,7 @@ const links = [
   },
 ];
 const PiximDrawer = ({ open, setOpen }) => {
+  const {image} = useSelector((state)=>state.auth)
   const { fileInputRef, preview, handleImageSelect } = useImageUpload();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -136,8 +138,6 @@ const PiximDrawer = ({ open, setOpen }) => {
         </DrawerHeader>
 
         <Divider />
-
-        {/* 👇 Drawer içeriği */}
         <Box
           sx={{
             display: "flex",
@@ -147,7 +147,7 @@ const PiximDrawer = ({ open, setOpen }) => {
           }}
         >
           <Avatar
-            src={preview || "/addprofile.png"}
+            src={image || "/addprofile.png"}
             sx={{
               width: open ? 100 : 40,
               height: open ? 100 : 40,
@@ -166,7 +166,6 @@ const PiximDrawer = ({ open, setOpen }) => {
           />
         </Box>
 
-        {/* 👇 Listeyi yukarı sabitliyoruz */}
         <List sx={{ mt: 2 }}>
           {links.map((item) => (
             <ListItem key={item.title} disablePadding sx={{ display: "block" }}>

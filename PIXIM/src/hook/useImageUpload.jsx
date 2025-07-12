@@ -15,7 +15,6 @@ const useImageUpload = (onUploadSuccess) => {
 
     try {
       const imageUrl = await uploadToCloudinary(file);
-
       if (onUploadSuccess) {
         onUploadSuccess(imageUrl);
       }

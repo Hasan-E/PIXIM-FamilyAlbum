@@ -12,7 +12,6 @@ const RegisterForm = ({
 }) => {
   const { fileInputRef, preview, uploading, handleImageSelect } =
     useImageUpload((imageUrl) => setFieldValue("image", imageUrl));
-
   return (
     <form onSubmit={handleSubmit}>
       <Avatar
