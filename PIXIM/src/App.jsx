@@ -3,8 +3,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ToastContainer } from "react-toastify";
 import { Provider } from "react-redux";
-import store from "./app/store";
+import store, { persistor } from "./app/store";
 import AppRouter from "./router/AppRouter";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
   const theme = createTheme({
@@ -29,7 +30,9 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
+        <PersistGate persistor={persistor} loading={null}>
           <AppRouter />
+        </PersistGate>
         </Provider>
         <ToastContainer />
       </ThemeProvider>
