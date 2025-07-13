@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 const Dashboard = () => {
   const [open, setOpen] = React.useState(false);
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", padding:12 }}>
       <CssBaseline />
       <PiximAppBar open={open} setOpen={setOpen} />
       <PiximDrawer open={open} setOpen={setOpen} />
