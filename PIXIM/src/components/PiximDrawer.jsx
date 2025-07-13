@@ -9,7 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import { styled, useTheme } from "@mui/material/styles";
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import ImageSearchOutlinedIcon from "@mui/icons-material/ImageSearchOutlined";
@@ -100,7 +100,7 @@ const links = [
   },
 ];
 const PiximDrawer = ({ open, setOpen }) => {
-  const {image} = useSelector((state)=>state.auth)
+  const { image } = useSelector((state) => state.auth);
   const { fileInputRef, preview, handleImageSelect } = useImageUpload();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -117,17 +117,41 @@ const PiximDrawer = ({ open, setOpen }) => {
         }}
       >
         <DrawerHeader>
-          <Avatar
-            src="/Logo.png"
+          <Box
             sx={{
-              m: "auto",
-              width: 50,
-              height: 50,
-              cursor: "pointer",
-              mb: 2,
-              mt: 2,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <Typography
+              variant="h3"
+              component="h6"
+              color={theme.palette.primary.light}
+              sx={{ textShadow: `2px 2px 4px ${theme.palette.secondary.main}` }}
+            >
+              PI
+            </Typography>
+            <Avatar
+              src="/Logo.png"
+              sx={{
+                m: "1",
+                width: 50,
+                height: 50,
+                cursor: "pointer",
+                mb: 2,
+                mt: 2,
+              }}
+            />
+            <Typography
+              variant="h3"
+              component="h6"
+              color={theme.palette.primary.light}
+              sx={{ textShadow: `2px 2px 4px ${theme.palette.secondary.main}` }}
+            >
+              IM
+            </Typography>
+          </Box>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
