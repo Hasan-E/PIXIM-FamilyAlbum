@@ -20,12 +20,25 @@ const RegisterForm = ({
           m: "auto",
           width: 100,
           height: 100,
-          cursor: "pointer",
           mb: 2,
         }}
-        onClick={() => fileInputRef.current.click()}
       />
-
+      <IconButton
+        size="small"
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          backgroundColor: "white",
+          border: "1px solid #ccc",
+          "&:hover": {
+            backgroundColor: "#f0f0f0",
+          },
+        }}
+        onClick={() => fileInputRef.current.click()}
+      >
+        <EditOutlinedIcon fontSize="small" />
+      </IconButton>
       <input
         ref={fileInputRef}
         type="file"

@@ -21,8 +21,11 @@ const piximSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    profileSuccess: (state,{payload})=>{
+
+    }
   },
 });
 
-export const {fetchStart,fetchFail} = piximSlice.actions;
+export const {fetchStart,fetchFail,profileSuccess} = piximSlice.actions;
 export default piximSlice.reducer;

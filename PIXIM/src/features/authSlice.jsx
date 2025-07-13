@@ -9,6 +9,7 @@ const authSlice = createSlice({
     error: false,
     token: null,
     image: null,
+    userId: null,
   },
   reducers: {
     fetchStart: (state) => {
@@ -30,9 +31,13 @@ const authSlice = createSlice({
       state.token = payload?.token;
       state.image = payload?.user?.image;
       state.loading = false;
+      state.userId = payload.user._id;
     },
     logoutSuccess: (state) => {
       (state.token = null), (state.loading = false), (state.currentUser = null);
+    },
+    updateImageSuccess: (state, { payload }) => {
+      state.image = payload?.new?.image;
     },
   },
 });
@@ -43,5 +48,6 @@ export const {
   registerSuccess,
   logoutSuccess,
   loginSuccess,
+  updateImageSuccess,
 } = authSlice.actions;
 export default authSlice.reducer;

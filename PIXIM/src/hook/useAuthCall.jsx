@@ -5,6 +5,7 @@ import {
   loginSuccess,
   logoutSuccess,
   registerSuccess,
+  updateImageSuccess,
 } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -50,13 +51,31 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(`${BASE_URL}auth/login`, userInfo);
+      console.log(data);
+
       dispatch(loginSuccess(data));
       navigate("/pixim");
     } catch (error) {
       dispatch(fetchFail());
     }
   };
-  return { register, logout, login };
+
+  //! PROFİL RESMİ GÜNCELLEME
+  const updateImage = async (imageUrl, userId) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axios.patch(
+        `${BASE_URL}users/${userId}`,
+        { image: imageUrl },
+        { headers: { Authorization: `Token ${token}` } }
+      );
+
+      dispatch(updateImageSuccess(data));
+    } catch (error) {
+      console.error("Profil resmi güncellenemedi", error);
+    }
+  };
+  return { register, logout, login, updateImage };
 };
 
 export default useAuthCall;

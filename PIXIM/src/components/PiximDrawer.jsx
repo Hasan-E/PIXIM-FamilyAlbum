@@ -101,7 +101,6 @@ const links = [
 ];
 const PiximDrawer = ({ open, setOpen }) => {
   const { image } = useSelector((state) => state.auth);
-  const { fileInputRef, preview, handleImageSelect } = useImageUpload();
   const navigate = useNavigate();
   const theme = useTheme();
   const handleDrawerClose = () => {
@@ -180,13 +179,6 @@ const PiximDrawer = ({ open, setOpen }) => {
               mb: 2,
             }}
             onClick={() => navigate("/pixim/profile")}
-          />
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageSelect}
-            style={{ display: "none" }}
           />
         </Box>
 
