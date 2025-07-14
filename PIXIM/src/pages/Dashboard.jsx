@@ -8,11 +8,20 @@ import { Outlet } from "react-router-dom";
 const Dashboard = () => {
   const [open, setOpen] = React.useState(false);
   return (
-    <Box sx={{ display: "flex", padding:12 }}>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        backgroundImage: 'url("/bghome.png")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <CssBaseline />
       <PiximAppBar open={open} setOpen={setOpen} />
       <PiximDrawer open={open} setOpen={setOpen} />
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, pt: 12 }}>
         <Outlet />
       </Box>
     </Box>

@@ -1,28 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import usePiximCall from "../hook/usePiximCall";
 import { useSelector } from "react-redux";
-import { Avatar, Box, Container, IconButton } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import useImageUpload from "../hook/useImageUpload";
 import useAuthCall from "../hook/useAuthCall";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-
 const Profile = () => {
-  const { getData } = usePiximCall();
   const { updateImage } = useAuthCall();
+  const [showMembers, setShowMembers] = useState(false);
   const { userId, image } = useSelector((state) => state.auth);
+  const { members } = useSelector((state) => state.pixim);
   const { fileInputRef, preview, handleImageSelect } = useImageUpload(
     (imageUrl) => updateImage(imageUrl, userId)
   );
+  const { getData, getProfile } = usePiximCall();
   useEffect(() => {
-    getData(`users/${userId}`);
+    getProfile(`${userId}`);
   }, []);
+  useEffect(() => {
+    getData("users");
+  }, []);
+  const handleShowMembers = () => {
+    setShowMembers(!showMembers);
+  };
+
   return (
-    <Container>
+    <Container sx={{ display: "flex", flexDirection: "column" }}>
       <Box
         sx={{
           position: "relative",
-          width: 100,
-          height: 100,
+          width: 180,
+          height: 180,
           mx: "auto",
           mb: 2,
         }}
@@ -30,8 +46,8 @@ const Profile = () => {
         <Avatar
           src={preview || image || "/addprofile.png"}
           sx={{
-            width: 100,
-            height: 100,
+            width: 180,
+            height: 180,
           }}
         />
         <IconButton
@@ -58,6 +74,27 @@ const Profile = () => {
           style={{ display: "none" }}
         />
       </Box>
+      <Box>
+        <Typography>USER NAME:</Typography>
+        <Typography>NAME:</Typography>
+        <Typography>E MAİL:</Typography>
+      </Box>
+      <Button
+        onClick={handleShowMembers}
+        variant="contained"
+        sx={{ width: "250px", alignSelf: "center", mt: 4 }}
+      >
+        {showMembers ? " Hide Family Members" : "Show Family Members"}
+      </Button>
+      {/* <Grid>
+        {showMembers &&
+          Array.isArray(members) &&
+          members.map((member) => (
+            <Grid key={member._id}>
+              <Member username={member.name} />
+            </Grid>
+          ))}
+      </Grid> */}
     </Container>
   );
 };

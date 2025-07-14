@@ -16,7 +16,6 @@ import ImageSearchOutlinedIcon from "@mui/icons-material/ImageSearchOutlined";
 import FilterOutlinedIcon from "@mui/icons-material/FilterOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useNavigate } from "react-router-dom";
-import useImageUpload from "../hook/useImageUpload";
 import { useSelector } from "react-redux";
 
 const drawerWidth = 250;

@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/authSlice";
+import piximReducer from "../features/PiximSlice"
 import {
   persistStore,
   persistReducer,
@@ -21,6 +22,7 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 const store = configureStore({
   reducer: {
     auth: persistedReducer,
+    pixim: piximReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

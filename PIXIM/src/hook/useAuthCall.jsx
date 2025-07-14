@@ -51,8 +51,6 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(`${BASE_URL}auth/login`, userInfo);
-      console.log(data);
-
       dispatch(loginSuccess(data));
       navigate("/pixim");
     } catch (error) {

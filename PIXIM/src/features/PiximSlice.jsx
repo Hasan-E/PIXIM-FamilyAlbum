@@ -3,14 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const piximSlice = createSlice({
   name: "pixim",
   initialState: {
-    loading:false,
-    error:false,
-    profile:[],
-    members:[],
-    moments:[],
-    albums:[],
-
-
+    loading: false,
+    error: false,
+    profile: [],
+    members: [],
+    moments: [],
+    albums: [],
   },
   reducers: {
     fetchStart: (state) => {
@@ -21,11 +19,18 @@ const piximSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
-    profileSuccess: (state,{payload})=>{
-
-    }
+    profileSuccess: (state, { payload }) => {
+      state.profile = payload?.data;
+      state.loading = false;
+      state.error = false;
+    },
+    piximSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.error = false;
+    },
   },
 });
 
-export const {fetchStart,fetchFail,profileSuccess} = piximSlice.actions;
+export const { fetchStart, fetchFail, piximSuccess, profileSuccess } =
+  piximSlice.actions;
 export default piximSlice.reducer;

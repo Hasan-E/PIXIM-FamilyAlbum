@@ -1,5 +1,7 @@
-import { TextField, Button, Avatar } from "@mui/material";
+import { TextField, Button, Avatar, IconButton } from "@mui/material";
 import useImageUpload from "../hook/useImageUpload";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+
 
 const RegisterForm = ({
   values,
