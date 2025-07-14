@@ -25,8 +25,10 @@ const piximSlice = createSlice({
       state.error = false;
     },
     piximSuccess: (state, { payload }) => {
+      state.moments = payload?.data
       state.loading = false;
       state.error = false;
+      console.log("moments", payload.data);
     },
   },
 });

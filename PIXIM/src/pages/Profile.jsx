@@ -17,7 +17,6 @@ const Profile = () => {
   const { updateImage } = useAuthCall();
   const [showMembers, setShowMembers] = useState(false);
   const { userId, image } = useSelector((state) => state.auth);
-  const { members } = useSelector((state) => state.pixim);
   const { fileInputRef, preview, handleImageSelect } = useImageUpload(
     (imageUrl) => updateImage(imageUrl, userId)
   );
