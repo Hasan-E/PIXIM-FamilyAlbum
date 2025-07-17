@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box, Button } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const MomentCard = ({
   title,
@@ -55,11 +56,11 @@ const MomentCard = ({
         <Box>
           <IconButton aria-label="like">
             <FavoriteIcon />
-            <Typography>{likes.length}</Typography>
+            <Typography>{likes?.length ?? 0}</Typography>
           </IconButton>
           <IconButton aria-label="comment">
             <CommentIcon />
-            <Typography>{comments.length}</Typography>
+            <Typography>{comments?.length ?? 0}</Typography>
           </IconButton>
           <IconButton aria-label="visitors">
             <VisibilityIcon />

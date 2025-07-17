@@ -4,6 +4,8 @@ import Grid from "@mui/material/Grid";
 import usePiximCall from "../hook/usePiximCall";
 import { useSelector } from "react-redux";
 import MomentCard from "../components/MomentCard";
+import loadingImage from "../assets/loading.png"
+
 
 const Home = () => {
   const theme = useTheme();
@@ -12,7 +14,15 @@ const Home = () => {
     getData("blogs?sort[createdAt]=desc");
   }, []);
   const { moments } = useSelector((state) => state.pixim);
+  const { loading } = useSelector((state) => state.pixim);
 
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" mt={5}>
+        <img src={loadingImage} alt="loading" />
+      </Box>
+    );
+  }
   return (
     <Box
       sx={{
