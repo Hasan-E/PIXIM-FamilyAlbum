@@ -6,8 +6,9 @@ const piximSlice = createSlice({
     loading: false,
     error: false,
     profile: [],
-    members: [],
     moments: [],
+    selectedMoment: {},
+    likes: {},
     albums: [],
   },
   reducers: {
@@ -25,14 +26,30 @@ const piximSlice = createSlice({
       state.error = false;
     },
     piximSuccess: (state, { payload }) => {
-      state.moments = payload?.data
+      state.moments = payload?.data;
       state.loading = false;
       state.error = false;
-      console.log("moments", payload.data);
+    },
+    momentSuccess: (state, { payload }) => {
+      state.selectedMoment = payload?.data;
+      state.loading = false;
+      state.error = false;
+    },
+    likeSuccess: (state, { payload }) => {
+      const { momentId, likeData } = payload;
+      state.likes[String(momentId)] = likeData;
+      state.loading = false;
+      state.error = false;
     },
   },
 });
 
-export const { fetchStart, fetchFail, piximSuccess, profileSuccess } =
-  piximSlice.actions;
+export const {
+  fetchStart,
+  fetchFail,
+  piximSuccess,
+  profileSuccess,
+  momentSuccess,
+  likeSuccess,
+} = piximSlice.actions;
 export default piximSlice.reducer;

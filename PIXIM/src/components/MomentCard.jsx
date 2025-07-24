@@ -4,23 +4,29 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import CommentIcon from "@mui/icons-material/Comment";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box, Button } from "@mui/material";
+import usePiximCall from "../hook/usePiximCall";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const MomentCard = ({
+  _id,
   title,
   createdAt,
   image,
   content,
   countOfVisitors,
-  likes,
   comments,
+  handleOpen,
+  likes,
 }) => {
+  const { postLike } = usePiximCall();
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -54,9 +60,9 @@ const MomentCard = ({
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
         <Box>
-          <IconButton aria-label="like">
-            <FavoriteIcon />
-            <Typography>{likes?.length ?? 0}</Typography>
+          <IconButton aria-label="like" onClick={() => postLike(_id)}>
+            <FavoriteIcon sx={{ color: likes?.didUserLike ? "red" : "grey" }} />
+            <Typography>{likes?.count ?? 0}</Typography>
           </IconButton>
           <IconButton aria-label="comment">
             <CommentIcon />
@@ -68,7 +74,9 @@ const MomentCard = ({
           </IconButton>
         </Box>
         <Box>
-          <Button variant="contained">Go To Moment</Button>
+          <Button onClick={() => handleOpen(_id)} variant="contained">
+            Go To Moment
+          </Button>
         </Box>
       </CardActions>
     </Card>

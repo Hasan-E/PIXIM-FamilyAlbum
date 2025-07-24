@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Typography, Box, useTheme } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import usePiximCall from "../hook/usePiximCall";
 import { useSelector } from "react-redux";
 import MomentCard from "../components/MomentCard";
-import loadingImage from "../assets/loading.png"
-
+import loadingImage from "../assets/loading.png";
+import MomentDetail from "../components/modals/MomentDetail";
 
 const Home = () => {
   const theme = useTheme();
@@ -14,7 +14,23 @@ const Home = () => {
     getData("blogs?sort[createdAt]=desc");
   }, []);
   const { moments } = useSelector((state) => state.pixim);
+  const { getLike } = usePiximCall();
+  useEffect(() => {
+    moments.forEach((moment) => getLike(moment._id));
+  }, [moments]);
   const { loading } = useSelector((state) => state.pixim);
+  const { likes } = useSelector((state) => state.pixim);
+  const [selectedMomentId, setSelectedMomentId] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (momentId) => {
+    setOpen(true);
+    setSelectedMomentId(momentId);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedMomentId(null);
+  };
 
   if (loading) {
     return (
@@ -43,10 +59,21 @@ const Home = () => {
       <Grid container spacing={3}>
         {moments.map((moment) => (
           <Grid size={{ xs: 12, md: 6, lg: 4 }} key={moment._id}>
-            <MomentCard {...moment} />
+            <MomentCard
+              handleOpen={handleOpen}
+              {...moment}
+              likes={likes[moment._id]}
+            />
           </Grid>
         ))}
       </Grid>
+      <Box sx={{ width: "100px" }}>
+        <MomentDetail
+          open={open}
+          handleClose={handleClose}
+          selectedMomentId={selectedMomentId}
+        />
+      </Box>
     </Box>
   );
 };
