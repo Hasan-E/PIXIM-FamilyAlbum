@@ -90,7 +90,7 @@ const usePiximCall = () => {
         likeSuccess({
           momentId,
           likeData: {
-            didUserlike: data.didUserlike,
+            didUserLike: data.didUserLike,
             count: data.countOfLikes,
           },
         })

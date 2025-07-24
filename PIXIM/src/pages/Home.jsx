@@ -72,6 +72,7 @@ const Home = () => {
           open={open}
           handleClose={handleClose}
           selectedMomentId={selectedMomentId}
+          likes={likes[selectedMomentId]}
         />
       </Box>
     </Box>

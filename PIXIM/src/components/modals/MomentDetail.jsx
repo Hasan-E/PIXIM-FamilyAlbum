@@ -1,6 +1,4 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { IconButton } from "@mui/material";
@@ -26,16 +24,14 @@ const style = {
   p: 4,
 };
 
-export default function MomentDetail({ open, handleClose, selectedMomentId }) {
-  const { getMoment, toggleLike } = usePiximCall();
-  const { selectedMoment } = useSelector((state) => state.pixim);
-  const { loading } = useSelector((state) => state.pixim);
-  const { userId } = useSelector((state) => state.auth);
-  const isLiked = selectedMoment.likes?.includes(userId);
-
-  const handleLikeToggle = () => {
-    toggleLike(selectedMoment._id, userId);
-  };
+export default function MomentDetail({
+  open,
+  handleClose,
+  selectedMomentId,
+  likes,
+}) {
+  const { getMoment, postLike } = usePiximCall();
+  const { selectedMoment, loading } = useSelector((state) => state.pixim);
   useEffect(() => {
     if (open && selectedMomentId && selectedMomentId !== selectedMoment?._id) {
       getMoment(selectedMomentId);
@@ -79,9 +75,14 @@ export default function MomentDetail({ open, handleClose, selectedMomentId }) {
                 justifyContent: "space-evenly",
               }}
             >
-              <IconButton aria-label="like" onClick={handleLikeToggle}>
-                <FavoriteIcon sx={{ color: isLiked ? "red" : "grey" }} />
-                <Typography>{selectedMoment.likes?.countOfLike}</Typography>
+              <IconButton
+                aria-label="like"
+                onClick={() => postLike(selectedMomentId)}
+              >
+                <FavoriteIcon
+                  sx={{ color: likes?.didUserLike ? "red" : "grey" }}
+                />
+                <Typography>{likes?.count ?? 0}</Typography>
               </IconButton>
               <IconButton aria-label="visitors">
                 <VisibilityIcon />
