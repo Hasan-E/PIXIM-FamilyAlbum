@@ -11,6 +11,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box, Button } from "@mui/material";
 import usePiximCall from "../hook/usePiximCall";
+import { useOutletContext } from "react-router-dom";
 
 
 const MomentCard = ({
@@ -25,6 +26,7 @@ const MomentCard = ({
   likes,
 }) => {
   const { postLike } = usePiximCall();
+  const {handleCommentOpen} = useOutletContext();
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -63,7 +65,7 @@ const MomentCard = ({
             <FavoriteIcon sx={{ color: likes?.didUserLike ? "red" : "grey" }} />
             <Typography>{likes?.count ?? 0}</Typography>
           </IconButton>
-          <IconButton aria-label="comment">
+          <IconButton aria-label="comment" onClick={handleCommentOpen} >
             <CommentIcon />
             <Typography>{comments?.length ?? 0}</Typography>
           </IconButton>

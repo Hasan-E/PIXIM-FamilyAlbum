@@ -7,6 +7,7 @@ import {
   profileSuccess,
   momentSuccess,
   likeSuccess,
+  commentSuccess,
 } from "../features/PiximSlice";
 import useAxios from "./useAxios";
 
@@ -100,7 +101,20 @@ const usePiximCall = () => {
     }
   };
 
-  return { getData, getProfile, getMoment, getLike, postLike };
+  const getComment = async () => {
+    dispatch(fetchStart());
+    if (!token) {
+      console.log("token yok");
+    }
+    try {
+      const { data } = await axiosWithToken.get(`comments`);
+      dispatch(commentSuccess(data));
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  };
+
+  return { getData, getProfile, getMoment, getLike, postLike,getComment };
 };
 
 export default usePiximCall;

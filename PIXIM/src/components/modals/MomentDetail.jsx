@@ -9,6 +9,7 @@ import usePiximCall from "../../hook/usePiximCall";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import loadingImage from "../../assets/loading.png";
+import { useOutletContext } from "react-router-dom";
 
 const style = {
   display: "flex",
@@ -30,13 +31,17 @@ export default function MomentDetail({
   selectedMomentId,
   likes,
 }) {
-  const { getMoment, postLike } = usePiximCall();
+  const { getMoment, postLike,getComment } = usePiximCall();
+  const { handleCommentOpen } = useOutletContext();
   const { selectedMoment, loading } = useSelector((state) => state.pixim);
   useEffect(() => {
     if (open && selectedMomentId && selectedMomentId !== selectedMoment?._id) {
       getMoment(selectedMomentId);
     }
   }, [open, selectedMomentId]);
+  // useEffect(()=>{
+  //   getComment()
+  // },[])
 
   if (loading) {
     return (
@@ -88,7 +93,7 @@ export default function MomentDetail({
                 <VisibilityIcon />
                 <Typography>{selectedMoment.countOfVisitors}</Typography>
               </IconButton>
-              <IconButton aria-label="comment">
+              <IconButton aria-label="comment" onClick={handleCommentOpen}>
                 <CommentIcon />
                 <Typography>{selectedMoment.comments?.length ?? 0}</Typography>
               </IconButton>

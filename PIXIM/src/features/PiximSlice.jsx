@@ -9,6 +9,7 @@ const piximSlice = createSlice({
     moments: [],
     selectedMoment: {},
     likes: {},
+    comments: [],
     albums: [],
   },
   reducers: {
@@ -41,6 +42,12 @@ const piximSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    commentSuccess: (state, { payload }) => {
+      state.comments = payload.data;
+      console.log(payload);
+      state.loading = false;
+      state.error = false;
+    },
   },
 });
 
@@ -51,5 +58,6 @@ export const {
   profileSuccess,
   momentSuccess,
   likeSuccess,
+  commentSuccess,
 } = piximSlice.actions;
 export default piximSlice.reducer;
