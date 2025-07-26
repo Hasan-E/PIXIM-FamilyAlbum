@@ -1,4 +1,3 @@
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -13,7 +12,6 @@ import { Box, Button } from "@mui/material";
 import usePiximCall from "../hook/usePiximCall";
 import { useOutletContext } from "react-router-dom";
 
-
 const MomentCard = ({
   _id,
   title,
@@ -21,12 +19,12 @@ const MomentCard = ({
   image,
   content,
   countOfVisitors,
-  comments,
   handleOpen,
   likes,
+  comments,
 }) => {
   const { postLike } = usePiximCall();
-  const {handleCommentOpen} = useOutletContext();
+  const { handleCommentOpen } = useOutletContext();
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -62,10 +60,12 @@ const MomentCard = ({
       >
         <Box>
           <IconButton aria-label="like" onClick={() => postLike(_id)}>
-            <FavoriteIcon sx={{ color: likes?.didUserLike ? "red" : "grey" }} />
+            <FavoriteIcon
+              sx={{ color: likes?.didUserLike ? "red" : "grey" }}
+            />
             <Typography>{likes?.count ?? 0}</Typography>
           </IconButton>
-          <IconButton aria-label="comment" onClick={handleCommentOpen} >
+          <IconButton aria-label="comment" onClick={handleCommentOpen}>
             <CommentIcon />
             <Typography>{comments?.length ?? 0}</Typography>
           </IconButton>

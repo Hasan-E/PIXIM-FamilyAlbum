@@ -9,20 +9,15 @@ import MomentDetail from "../components/modals/MomentDetail";
 
 const Home = () => {
   const theme = useTheme();
-  const { getData } = usePiximCall();
-  useEffect(() => {
-    getData("blogs?sort[createdAt]=desc");
-  }, []);
-  const { moments } = useSelector((state) => state.pixim);
-  const { getLike } = usePiximCall();
-  useEffect(() => {
-    moments.forEach((moment) => getLike(moment._id));
-  }, [moments]);
-  const { loading } = useSelector((state) => state.pixim);
-  const { likes } = useSelector((state) => state.pixim);
   const [selectedMomentId, setSelectedMomentId] = useState(null);
   const [open, setOpen] = useState(false);
-
+  const { getHome } = usePiximCall();
+  useEffect(() => {
+    getHome();
+  }, []);
+  const { moments, loading, likes, comments } = useSelector(
+    (state) => state.pixim
+  );
   const handleOpen = (momentId) => {
     setOpen(true);
     setSelectedMomentId(momentId);
@@ -63,6 +58,9 @@ const Home = () => {
               handleOpen={handleOpen}
               {...moment}
               likes={likes[moment._id]}
+              comments={comments.filter(
+                (comment) => comment.blogId === moment._id
+              )}
             />
           </Grid>
         ))}
@@ -71,8 +69,11 @@ const Home = () => {
         <MomentDetail
           open={open}
           handleClose={handleClose}
-          selectedMomentId={selectedMomentId}
+          moment={moments.find((moment) => moment._id === selectedMomentId)}
           likes={likes[selectedMomentId]}
+          comments={comments.filter(
+            (comment) => comment.blogId === selectedMomentId
+          )}
         />
       </Box>
     </Box>

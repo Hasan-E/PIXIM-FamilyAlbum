@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchFail,
   fetchStart,
-  piximSuccess,
+  homeSuccess,
   profileSuccess,
-  momentSuccess,
   likeSuccess,
-  commentSuccess,
 } from "../features/PiximSlice";
 import useAxios from "./useAxios";
 
@@ -29,56 +27,40 @@ const usePiximCall = () => {
       dispatch(fetchFail());
     }
   };
-  //! TÜM VERİLER İÇİN
-  const getData = async (url) => {
+  //! HOME SAYFASI VERİ ÇEKME İŞLEMLERİ
+  const getHome = async () => {
     dispatch(fetchStart());
     if (!token) {
       console.log("token yok");
     }
     try {
-      const { data } = await axiosWithToken.get(`${url}`);
-      dispatch(piximSuccess(data));
-    } catch (error) {
-      dispatch(fetchFail());
-    }
-  };
-  //! TEK ANI İÇİN VERİ ÇEKME
-  const getMoment = async (momentId) => {
-    dispatch(fetchStart());
-    if (!token) {
-      console.log("token yok");
-    }
-    try {
-      const { data } = await axiosWithToken.get(`blogs/${momentId}`);
-      dispatch(momentSuccess(data));
+      const { data: momentsData } = await axiosWithToken.get(
+        "blogs?sort[createdAt]=desc"
+      );
+      const moments = momentsData?.data || [];
+      const likePromises = moments.map((moment) =>
+        axiosWithToken.get(`blogs/${moment._id}/getLike`)
+      );
+      const likesResults = await Promise.all(likePromises);
+      const likes = {};
+      likesResults.forEach((res, index) => {
+        const momentId = moments[index]._id;
+        likes[momentId] = {
+          didUserLike: res.data.didUserLike,
+          count: res.data.countOfLikes,
+        };
+      });
+      const { data: commentsData } = await axiosWithToken.get("comments");
+      const comments = commentsData?.data || [];
+
+      dispatch(homeSuccess({ moments, likes, comments }));
     } catch (error) {
       dispatch(fetchFail());
     }
   };
 
   //! LİKE-UNLİKE İŞLEMLEMLERİ
-  const getLike = async (momentId) => {
-    dispatch(fetchStart());
-    if (!token) {
-      console.log("token yok");
-    }
-    try {
-      const { data } = await axiosWithToken.get(`blogs/${momentId}/getLike`);
-
-      dispatch(
-        likeSuccess({
-          momentId,
-          likeData: {
-            didUserLike: data.didUserLike,
-            count: data.countOfLikes,
-          },
-        })
-      );
-    } catch (error) {
-      dispatch(fetchFail());
-    }
-  };
-
+ 
   const postLike = async (momentId) => {
     dispatch(fetchStart());
     if (!token) {
@@ -101,20 +83,8 @@ const usePiximCall = () => {
     }
   };
 
-  const getComment = async () => {
-    dispatch(fetchStart());
-    if (!token) {
-      console.log("token yok");
-    }
-    try {
-      const { data } = await axiosWithToken.get(`comments`);
-      dispatch(commentSuccess(data));
-    } catch (error) {
-      dispatch(fetchFail());
-    }
-  };
 
-  return { getData, getProfile, getMoment, getLike, postLike,getComment };
+  return { getHome, getProfile, postLike, };
 };
 
 export default usePiximCall;

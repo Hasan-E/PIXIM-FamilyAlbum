@@ -7,7 +7,6 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import usePiximCall from "../../hook/usePiximCall";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import loadingImage from "../../assets/loading.png";
 import { useOutletContext } from "react-router-dom";
 
@@ -25,25 +24,12 @@ const style = {
   p: 4,
 };
 
-export default function MomentDetail({
-  open,
-  handleClose,
-  selectedMomentId,
-  likes,
-}) {
-  const { getMoment, postLike,getComment } = usePiximCall();
+export default function MomentDetail({ open, handleClose, moment, likes,comments }) {
+  const { postLike } = usePiximCall();
   const { handleCommentOpen } = useOutletContext();
-  const { selectedMoment, loading } = useSelector((state) => state.pixim);
-  useEffect(() => {
-    if (open && selectedMomentId && selectedMomentId !== selectedMoment?._id) {
-      getMoment(selectedMomentId);
-    }
-  }, [open, selectedMomentId]);
-  // useEffect(()=>{
-  //   getComment()
-  // },[])
+  const { loading } = useSelector((state) => state.pixim);
 
-  if (loading) {
+  if (loading || !moment || !comments) {
     return (
       <Modal open={open} onClose={handleClose}>
         <Box sx={style} display="flex" justifyContent="center">
@@ -64,7 +50,7 @@ export default function MomentDetail({
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box
               component="img"
-              src={selectedMoment.image}
+              src={moment.image}
               sx={{
                 m: "auto",
                 width: 500,
@@ -82,7 +68,7 @@ export default function MomentDetail({
             >
               <IconButton
                 aria-label="like"
-                onClick={() => postLike(selectedMomentId)}
+                onClick={() => postLike(moment._id)}
               >
                 <FavoriteIcon
                   sx={{ color: likes?.didUserLike ? "red" : "grey" }}
@@ -91,23 +77,22 @@ export default function MomentDetail({
               </IconButton>
               <IconButton aria-label="visitors">
                 <VisibilityIcon />
-                <Typography>{selectedMoment.countOfVisitors}</Typography>
+                <Typography>{moment.countOfVisitors}</Typography>
               </IconButton>
               <IconButton aria-label="comment" onClick={handleCommentOpen}>
                 <CommentIcon />
-                <Typography>{selectedMoment.comments?.length ?? 0}</Typography>
+                <Typography>{moment.comments?.length ?? 0}</Typography>
               </IconButton>
             </Box>
           </Box>
           <Box>
-            <Typography fontSize={"2rem"}>{selectedMoment.title}</Typography>
+            <Typography fontSize={"2rem"}>{moment.title}</Typography>
             <Typography sx={{ maxHeight: "35%", overflow: "auto" }}>
-              {selectedMoment.content}
+              {moment.content}
             </Typography>
             <Typography fontSize={"2rem"}>Comments</Typography>
             <Box sx={{ maxHeight: "35%", overflow: "auto" }}>
-              {selectedMoment.comments &&
-                selectedMoment.comments.map((comment) => (
+              {comments.map((comment) => (
                   <Box key={comment._id}>
                     <Typography fontSize={"1.5rem"}>
                       {comment.userId.username}
