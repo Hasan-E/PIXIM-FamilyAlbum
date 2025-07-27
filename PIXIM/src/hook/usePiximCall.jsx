@@ -7,15 +7,16 @@ import {
   profileSuccess,
   likeSuccess,
   updateMoment,
+  addCommentSuccess,
 } from "../features/PiximSlice";
 import useAxios from "./useAxios";
 
 const usePiximCall = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+  const { token, currentUser, userId } = useSelector((state) => state.auth);
   const { axiosWithToken } = useAxios();
-  //!PROFİL BİLGİLERİ İÇİN
 
+  //!PROFİL BİLGİLERİ İÇİN
   const getProfile = async (userId) => {
     dispatch(fetchStart());
     if (!token) {
@@ -28,6 +29,7 @@ const usePiximCall = () => {
       dispatch(fetchFail());
     }
   };
+
   //! HOME SAYFASI VERİ ÇEKME İŞLEMLERİ
   const getHome = async () => {
     dispatch(fetchStart());
@@ -61,7 +63,6 @@ const usePiximCall = () => {
   };
 
   //! LİKE-UNLİKE İŞLEMLEMLERİ
-
   const postLike = async (momentId) => {
     dispatch(fetchStart());
     if (!token) {
@@ -83,6 +84,7 @@ const usePiximCall = () => {
       dispatch(fetchFail());
     }
   };
+
   //! TEK MOMENT İÇİN VERİ ÇEKME
   const getMoment = async (momentId) => {
     dispatch(fetchStart());
@@ -97,7 +99,33 @@ const usePiximCall = () => {
     }
   };
 
-  return { getHome, getProfile, postLike, getMoment };
+  //! COMMENT EKLEME İŞLEMİ
+  const postComment = async (momentId, commentText) => {
+    dispatch(fetchStart());
+    if (!token) {
+      console.log("token yok");
+    }
+    try {
+      const { data } = await axiosWithToken.post("comments", {
+        blogId: momentId,
+        comment: commentText,
+      });
+      const newCommentData = data.data;
+      const commentWithUser = {
+        ...newCommentData,
+        userId: {
+          _id: newCommentData.userId,
+          username: currentUser,
+        },
+      };
+
+      dispatch(addCommentSuccess(commentWithUser));
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  };
+
+  return { getHome, getProfile, getMoment, postLike, postComment };
 };
 
 export default usePiximCall;

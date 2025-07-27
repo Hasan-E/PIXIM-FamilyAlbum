@@ -46,6 +46,11 @@ const piximSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    addCommentSuccess: (state, { payload }) => {
+      state.comments.push(payload);
+      state.loading = false;
+      state.error = false;
+    },
   },
 });
 
@@ -56,5 +61,6 @@ export const {
   profileSuccess,
   likeSuccess,
   updateMoment,
+  addCommentSuccess,
 } = piximSlice.actions;
 export default piximSlice.reducer;

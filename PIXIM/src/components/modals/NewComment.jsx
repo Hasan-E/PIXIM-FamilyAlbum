@@ -1,6 +1,8 @@
 import { Box, Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
+import usePiximCall from "../../hook/usePiximCall";
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -14,9 +16,21 @@ const style = {
   p: 4,
 };
 
-export default function NewComment({open,handleClose}) {
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+export default function NewComment({open,handleClose,momentId}) {
+  const {postComment,getMoment} = usePiximCall()
+  const [commentText,setCommentText] = useState("")
+  const handleChange = (e) => {
+    setCommentText(e.target.value)
+  };
+  const handleSubmit = async (e) => {
+e.preventDefault();
+if(commentText.trim() && momentId){
+  await postComment(momentId,commentText)
+  setCommentText("")
+  handleClose()
+  getMoment(momentId)
+}
+  };
 
   return (
     <div>
@@ -33,7 +47,8 @@ export default function NewComment({open,handleClose}) {
               name="comment"
               type="text"
               variant="outlined"
-              value="Add Your Comment Here"
+              value={commentText}
+              onChange={handleChange}
               fullWidth
               multiline
               rows={4}

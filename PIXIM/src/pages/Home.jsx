@@ -15,9 +15,9 @@ const Home = () => {
   useEffect(() => {
     getHome();
   }, []);
-  const { moments, loading, likes, comments } = useSelector(
+  const { moments, loading, likes,} = useSelector(
     (state) => state.pixim
-  );
+  );    
   const handleOpen = (momentId) => {
     setOpen(true);
     setSelectedMomentId(momentId);
@@ -62,9 +62,6 @@ const Home = () => {
               handleOpen={handleOpen}
               {...moment}
               likes={likes[moment._id]}
-              comments={comments.filter(
-                (comment) => comment.blogId === moment._id
-              )}
             />
           </Grid>
         ))}
@@ -75,9 +72,7 @@ const Home = () => {
           handleClose={handleClose}
           moment={selectedMomentData}
           likes={likes[selectedMomentId]}
-          comments={comments.filter(
-            (comment) => comment.blogId === selectedMomentId
-          )}
+
         />
       </Box>
     </Box>

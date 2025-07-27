@@ -27,7 +27,7 @@ const MomentCard = ({
   const { handleCommentOpen } = useOutletContext();
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 450 }}>
       <CardHeader
         title={title}
         subheader={new Date(createdAt).toLocaleString("tr-TR", {
@@ -65,7 +65,7 @@ const MomentCard = ({
             />
             <Typography>{likes?.count ?? 0}</Typography>
           </IconButton>
-          <IconButton aria-label="comment" onClick={handleCommentOpen}>
+          <IconButton aria-label="comment" onClick={()=>handleCommentOpen(_id)}>
             <CommentIcon />
             <Typography>{comments?.length ?? 0}</Typography>
           </IconButton>

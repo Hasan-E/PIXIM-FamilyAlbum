@@ -10,8 +10,15 @@ import { useState } from "react";
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
-  const handleCommentOpen = () => setCommentOpen(true);
-  const handleCommentClose = () => setCommentOpen(false);
+  const [commentMomentId, setCommentMomentId] = useState(null);
+  const handleCommentOpen = (momentId) => {
+    setCommentOpen(true);
+    setCommentMomentId(momentId);
+  };
+  const handleCommentClose = () => {
+    setCommentOpen(false);
+    setCommentMomentId(null);
+  };
   return (
     <Box
       sx={{
@@ -26,9 +33,13 @@ const Dashboard = () => {
       <CssBaseline />
       <PiximAppBar open={open} setOpen={setOpen} />
       <PiximDrawer open={open} setOpen={setOpen} />
-      <NewComment open={commentOpen} handleClose={handleCommentClose} />
+      <NewComment
+        open={commentOpen}
+        handleClose={handleCommentClose}
+        momentId={commentMomentId}
+      />
       <Box component="main" sx={{ flexGrow: 1, pt: 12 }}>
-        <Outlet context={{handleCommentOpen}}/>
+        <Outlet context={{ handleCommentOpen }} />
       </Box>
     </Box>
   );

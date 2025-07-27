@@ -24,18 +24,11 @@ const style = {
   p: 4,
 };
 
-export default function MomentDetail({
-  open,
-  handleClose,
-  moment,
-  likes,
-  comments,
-}) {
+export default function MomentDetail({ open, handleClose, moment, likes }) {
   const { postLike } = usePiximCall();
   const { handleCommentOpen } = useOutletContext();
   const { loading } = useSelector((state) => state.pixim);
-
-  if (loading || !moment || !comments) {
+  if (loading || !moment) {
     return (
       <Modal open={open} onClose={handleClose}>
         <Box sx={style} display="flex" justifyContent="center">
@@ -85,7 +78,10 @@ export default function MomentDetail({
                 <VisibilityIcon />
                 <Typography>{moment.countOfVisitors}</Typography>
               </IconButton>
-              <IconButton aria-label="comment" onClick={handleCommentOpen}>
+              <IconButton
+                aria-label="comment"
+                onClick={() => handleCommentOpen(moment._id)}
+              >
                 <CommentIcon />
                 <Typography>{moment.comments?.length ?? 0}</Typography>
               </IconButton>
@@ -98,7 +94,7 @@ export default function MomentDetail({
             </Typography>
             <Typography fontSize={"2rem"}>Comments</Typography>
             <Box sx={{ maxHeight: "35%", overflow: "auto" }}>
-              {comments.map((comment) => (
+              {moment.comments.map((comment) => (
                 <Box key={comment._id}>
                   <Typography fontSize={"1.5rem"}>
                     {comment.userId.username}
