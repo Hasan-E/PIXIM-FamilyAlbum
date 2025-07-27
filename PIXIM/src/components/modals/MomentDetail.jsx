@@ -24,7 +24,13 @@ const style = {
   p: 4,
 };
 
-export default function MomentDetail({ open, handleClose, moment, likes,comments }) {
+export default function MomentDetail({
+  open,
+  handleClose,
+  moment,
+  likes,
+  comments,
+}) {
   const { postLike } = usePiximCall();
   const { handleCommentOpen } = useOutletContext();
   const { loading } = useSelector((state) => state.pixim);
@@ -93,13 +99,13 @@ export default function MomentDetail({ open, handleClose, moment, likes,comments
             <Typography fontSize={"2rem"}>Comments</Typography>
             <Box sx={{ maxHeight: "35%", overflow: "auto" }}>
               {comments.map((comment) => (
-                  <Box key={comment._id}>
-                    <Typography fontSize={"1.5rem"}>
-                      {comment.userId.username}
-                    </Typography>
-                    <Typography>{comment.comment}</Typography>
-                  </Box>
-                ))}
+                <Box key={comment._id}>
+                  <Typography fontSize={"1.5rem"}>
+                    {comment.userId.username}
+                  </Typography>
+                  <Typography>{comment.comment}</Typography>
+                </Box>
+              ))}
             </Box>
           </Box>
         </Box>

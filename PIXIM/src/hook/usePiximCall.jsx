@@ -6,6 +6,7 @@ import {
   homeSuccess,
   profileSuccess,
   likeSuccess,
+  updateMoment,
 } from "../features/PiximSlice";
 import useAxios from "./useAxios";
 
@@ -60,7 +61,7 @@ const usePiximCall = () => {
   };
 
   //! LİKE-UNLİKE İŞLEMLEMLERİ
- 
+
   const postLike = async (momentId) => {
     dispatch(fetchStart());
     if (!token) {
@@ -82,9 +83,21 @@ const usePiximCall = () => {
       dispatch(fetchFail());
     }
   };
+  //! TEK MOMENT İÇİN VERİ ÇEKME
+  const getMoment = async (momentId) => {
+    dispatch(fetchStart());
+    if (!token) {
+      console.log("token yok");
+    }
+    try {
+      const { data } = await axiosWithToken.get(`blogs/${momentId}`);
+      dispatch(updateMoment(data.data));
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  };
 
-
-  return { getHome, getProfile, postLike, };
+  return { getHome, getProfile, postLike, getMoment };
 };
 
 export default usePiximCall;

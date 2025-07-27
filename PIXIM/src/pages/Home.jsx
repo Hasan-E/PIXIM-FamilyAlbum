@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useMemo } from "react";
 import { Typography, Box, useTheme } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import usePiximCall from "../hook/usePiximCall";
@@ -11,7 +11,7 @@ const Home = () => {
   const theme = useTheme();
   const [selectedMomentId, setSelectedMomentId] = useState(null);
   const [open, setOpen] = useState(false);
-  const { getHome } = usePiximCall();
+  const { getHome,getMoment } = usePiximCall();
   useEffect(() => {
     getHome();
   }, []);
@@ -21,11 +21,15 @@ const Home = () => {
   const handleOpen = (momentId) => {
     setOpen(true);
     setSelectedMomentId(momentId);
+    getMoment(momentId)
   };
   const handleClose = () => {
     setOpen(false);
     setSelectedMomentId(null);
   };
+  const selectedMomentData = useMemo(()=>{
+    return moments.find((moment)=>moment._id === selectedMomentId);
+  },[moments,selectedMomentId])
 
   if (loading) {
     return (
@@ -69,7 +73,7 @@ const Home = () => {
         <MomentDetail
           open={open}
           handleClose={handleClose}
-          moment={moments.find((moment) => moment._id === selectedMomentId)}
+          moment={selectedMomentData}
           likes={likes[selectedMomentId]}
           comments={comments.filter(
             (comment) => comment.blogId === selectedMomentId

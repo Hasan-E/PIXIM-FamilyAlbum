@@ -38,6 +38,14 @@ const piximSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    updateMoment: (state, { payload }) => {
+      const updatedMoment = payload;
+      state.moments = state.moments.map((moment) => {
+        return moment._id === updatedMoment._id ? updatedMoment : moment;
+      });
+      state.loading = false;
+      state.error = false;
+    },
   },
 });
 
@@ -47,5 +55,6 @@ export const {
   homeSuccess,
   profileSuccess,
   likeSuccess,
+  updateMoment,
 } = piximSlice.actions;
 export default piximSlice.reducer;
