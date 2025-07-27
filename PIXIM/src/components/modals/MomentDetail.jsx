@@ -46,15 +46,15 @@ export default function MomentDetail({ open, handleClose, moment, likes }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box sx={{ display: "flex", flexDirection: "column",width:"55%",height:"100%" }}>
             <Box
               component="img"
               src={moment.image}
               sx={{
                 m: "auto",
-                width: 500,
-                height: 500,
-                mb: 2,
+                width: "95%",
+                height: 550,
+                my: 2,
                 mx: 2,
               }}
             />
@@ -87,15 +87,25 @@ export default function MomentDetail({ open, handleClose, moment, likes }) {
               </IconButton>
             </Box>
           </Box>
-          <Box>
+          <Box sx={{width:"40%"}}>
             <Typography fontSize={"2rem"}>{moment.title}</Typography>
             <Typography sx={{ maxHeight: "35%", overflow: "auto" }}>
               {moment.content}
             </Typography>
-            <Typography fontSize={"2rem"}>Comments</Typography>
-            <Box sx={{ maxHeight: "35%", overflow: "auto" }}>
+            <Typography fontSize={"2rem"} mb={1}>Comments</Typography>
+            <Box sx={{ maxHeight: "35%", overflow: "auto",pr:1 }}>
               {moment.comments.map((comment) => (
-                <Box key={comment._id}>
+                <Box key={comment._id} sx={{
+                 display: "flex",
+                      flexDirection: "column",
+                      gap: 0.5,
+                      mb: 2,    
+                      p: 2,   
+                      border: "1px solid #e0e0e0", 
+                      borderRadius: "8px", 
+                      backgroundColor: "#f9f9f9", 
+                      boxShadow: "0px 2px 4px rgba(0,0,0,0.05)", 
+                }}>
                   <Typography fontSize={"1.5rem"}>
                     {comment.userId.username}
                   </Typography>
