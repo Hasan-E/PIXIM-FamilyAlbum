@@ -1,17 +1,13 @@
-import {
-  Container,
-  Box,
-  Typography,
-} from "@mui/material";
-import AuthLogo from "../components/AuthLogo";
+import { Container, Box, Typography } from "@mui/material";
+import AuthLogo from "../components/entrance/AuthLogo";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/forms/RegisterForm";
 import useAuthCall from "../hook/useAuthCall";
 
 const Register = () => {
-  const {register} = useAuthCall();
+  const { register } = useAuthCall();
   const RegisterSchema = Yup.object().shape({
     // image: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
@@ -53,7 +49,6 @@ const Register = () => {
           <Typography variant="h4" align="center" mb={4} color="secondary.main">
             JOIN YOUR FAMILY
           </Typography>
-    
 
           <Formik
             initialValues={{
@@ -65,8 +60,7 @@ const Register = () => {
               password: "",
             }}
             validationSchema={RegisterSchema}
-            onSubmit={(values) => (register(values))
-            }
+            onSubmit={(values) => register(values)}
           >
             {(formikProps) => <RegisterForm {...formikProps} />}
           </Formik>

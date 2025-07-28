@@ -1,9 +1,11 @@
-import React from 'react'
-
+import { Box } from "@mui/material";
+import logo from "/defaultLogo.png";
 const NewMoment = () => {
   return (
-    <div>NewMoment</div>
-  )
-}
+    <Box>
+      <Box component="img" src={logo} />
+    </Box>
+  );
+};
 
-export default NewMoment
+export default NewMoment;

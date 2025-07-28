@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme, Paper } from "@mui/material";
-import image from "../assets/LogoMain.png";
+import image from "../../assets/LogoMain.png";
 
 const AuthLogo = () => {
   const theme = useTheme();

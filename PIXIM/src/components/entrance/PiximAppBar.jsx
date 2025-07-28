@@ -7,11 +7,11 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import image from "../assets/LogoMain.png";
+import image from "../../assets/LogoMain.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import MuiAppBar from "@mui/material/AppBar";
-import useAuthCall from "../hook/useAuthCall";
+import useAuthCall from "../../hook/useAuthCall";
 
 const drawerWidth = 250;
 

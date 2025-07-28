@@ -1,11 +1,11 @@
 import { Container, Box, Typography, Avatar } from "@mui/material";
-import AuthLogo from "../components/AuthLogo";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/forms/LoginForm";
 import useAuthCall from "../hook/useAuthCall";
+import AuthLogo from "../components/entrance/AuthLogo";
 
 const Login = () => {
   const { login } = useAuthCall();

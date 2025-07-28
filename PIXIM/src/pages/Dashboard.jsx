@@ -1,8 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import PiximAppBar from "../components/PiximAppBar";
-import PiximDrawer from "../components/PiximDrawer";
+import PiximAppBar from "../components/entrance/PiximAppBar";
+import PiximDrawer from "../components/entrance/PiximDrawer";
 import { Outlet } from "react-router-dom";
 import NewComment from "../components/modals/NewComment";
 import { useState } from "react";
