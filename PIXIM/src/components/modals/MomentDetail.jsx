@@ -46,14 +46,14 @@ export default function MomentDetail({ open, handleClose, moment, likes }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Box sx={{ display: "flex", flexDirection: "column",width:"55%",height:"100%" }}>
+          <Box sx={{ display: "flex", flexDirection: "column",width:"55%",height:"80vh" }}>
             <Box
               component="img"
               src={moment.image}
               sx={{
                 m: "auto",
                 width: "95%",
-                height: 550,
+                height: "100%",
                 my: 2,
                 mx: 2,
               }}
